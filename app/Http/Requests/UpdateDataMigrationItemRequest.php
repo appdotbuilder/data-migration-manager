@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateDataMigrationItemRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'data_type' => 'required|in:customer_records,product_catalogs,service_accounts,billing_accounts,sales_orders',
+            'data_payload' => 'nullable|array',
+            'source_file' => 'nullable|string|max:255',
+            'review_notes' => 'nullable|string',
+            'approval_notes' => 'nullable|string',
+        ];
+    }
+
+    /**
+     * Get custom error messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'Migration item title is required.',
+            'data_type.required' => 'Data type is required.',
+            'data_type.in' => 'Invalid data type selected.',
+        ];
+    }
+}
